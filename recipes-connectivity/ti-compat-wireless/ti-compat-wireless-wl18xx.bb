@@ -45,6 +45,7 @@ do_configure() {
     make defconfig-wl18xx
     sed -i 's/__TIMESTAMP__/"June_22_2015"/g' ${S}/drivers/net/wireless/ti/wlcore/Makefile
     sed -i 's/__TIMESTAMP__/"June_22_2015"/g' ${S}/drivers/net/wireless/ti/wlcore/release_version.h
+    sed -i 's/\/\* time sync \*\//return hw; \/\* time sync \*\//g' ${S}/drivers/net/wireless/ti/wlcore/main.c
 
 }
 
