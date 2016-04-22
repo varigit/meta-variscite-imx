@@ -41,7 +41,9 @@ tcf-agent \
 openssh-sftp-server \
 fio \
 u-boot-splash \
-eclipse-debug \
+gdbserver \
+tcf-agent \
+openssh-sftp-server \
 "
 
 export IMAGE_BASENAME = "fsl-image-qt5-minimal"
