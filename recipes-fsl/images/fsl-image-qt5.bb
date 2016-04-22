@@ -41,6 +41,6 @@ openssh-sftp-server \
 fio \
 u-boot-fw-utils \
 u-boot-splash \
-eclipse-debug \
+
 "
 export IMAGE_BASENAME = "fsl-image-qt5"
