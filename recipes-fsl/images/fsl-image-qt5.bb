@@ -41,6 +41,5 @@ openssh-sftp-server \
 fio \
 u-boot-fw-utils \
 u-boot-splash \
-
 "
 export IMAGE_BASENAME = "fsl-image-qt5"
