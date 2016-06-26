@@ -179,7 +179,7 @@ function ceildiv
 for ((i=0; i<10; i++))
 do
 	if [ `ls ${node}${part}$i 2> /dev/null | grep -c ${node}${part}$i` -ne 0 ]; then
-		dd if=/dev/zero of=${node}${part}$i bs=512 count=1024
+		dd if=/dev/zero of=${node}${part}$i bs=512 count=1024 2> /dev/null || true
 	fi
 done
 sync
@@ -187,7 +187,7 @@ sync
 ((echo d; echo 1; echo d; echo 2; echo d; echo 3; echo d; echo w) | fdisk ${node} &> /dev/null) || true
 sync
 
-dd if=/dev/zero of=${node} bs=512 count=1024
+dd if=/dev/zero of=${node} bs=1M count=4
 sync
 
 # Create partitions

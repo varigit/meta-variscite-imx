@@ -118,7 +118,7 @@ sync
 ((echo d; echo 1; echo d; echo 2; echo d; echo 3; echo d; echo w) | fdisk ${node} &> /dev/null) || true
 sync
 
-dd if=/dev/zero of=${node} bs=1024 count=4096
+dd if=/dev/zero of=${node} bs=1M count=4
 sync
 
 echo
