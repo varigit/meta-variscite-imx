@@ -1,10 +1,12 @@
 #Variscite init script Add-On
 
-FILESEXTRAPATHS_prepend := "${THISDIR}:"
+FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
-SRC_URI_append = " file://variscite-bluetooth \
-		   file://variscite-touch \
-		   file://variscite-pwrkey"
+SRC_URI_append = " \
+                  file://variscite-bluetooth \
+                  file://variscite-touch \
+                  file://variscite-pwrkey \
+                  "
 
 do_install_append() {
 	install -m 0755 ${WORKDIR}/variscite-bluetooth ${D}${sysconfdir}/init.d
