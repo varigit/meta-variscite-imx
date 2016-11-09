@@ -258,7 +258,9 @@ function copy_scripts
 {
 	echo
 	echo "Copying scripts and desktop icons"
-	cp ${YOCTO_SCRIPTS_PATH}/*.sh		${P2_MOUNT_DIR}/usr/bin/
+	cp ${YOCTO_SCRIPTS_PATH}/install_yocto.sh		${P2_MOUNT_DIR}/usr/bin/
+	cp ${YOCTO_SCRIPTS_PATH}/install_yocto_emmc.sh		${P2_MOUNT_DIR}/usr/bin/
+	cp ${YOCTO_SCRIPTS_PATH}/echos.sh			${P2_MOUNT_DIR}/usr/bin/
 
 	cp ${YOCTO_SCRIPTS_PATH}/*.desktop 	${P2_MOUNT_DIR}/usr/share/applications/
 

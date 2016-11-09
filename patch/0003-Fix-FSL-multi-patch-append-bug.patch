@@ -1,0 +1,21 @@
+diff --git a/imx/meta-bsp/recipes-multimedia/pulseaudio/pulseaudio_8.0.bbappend b/imx/meta-bsp/recipes-multimedia/pulseaudio/pulseaudio_8.0.bbappend
+index f771810..14f09a2 100644
+--- a/imx/meta-bsp/recipes-multimedia/pulseaudio/pulseaudio_8.0.bbappend
++++ b/imx/meta-bsp/recipes-multimedia/pulseaudio/pulseaudio_8.0.bbappend
+@@ -13,10 +13,12 @@ SRC_URI_remove = "file://0002-alsa-bluetooth-fail-if-user-requested-profile-does
+ SRC_URI_remove = "file://0003-card-move-profile-selection-after-pa_card_new.patch "
+ SRC_URI_remove = "file://0004-alsa-set-availability-for-some-unavailable-profiles.patch "
+ 
+-SRC_URI_append_mx6 = "${IMX_PATCHES}"
+-SRC_URI_append_mx6ul = "${IMX_PATCHES}"
+-SRC_URI_append_mx7 = "${IMX_PATCHES}"
+-SRC_URI_append_mx8 = "${IMX_PATCHES}"
++#SRC_URI_append_mx6 = "${IMX_PATCHES}"
++#SRC_URI_append_mx6ul = "${IMX_PATCHES}"
++#SRC_URI_append_mx7 = "${IMX_PATCHES}"
++#SRC_URI_append_mx8 = "${IMX_PATCHES}"
++
++SRC_URI_append = "${IMX_PATCHES}"
+ 
+ # Enable allow-autospawn-for-root as default
+ PACKAGECONFIG_append = " autospawn-for-root"
