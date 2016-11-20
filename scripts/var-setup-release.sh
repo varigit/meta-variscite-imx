@@ -206,6 +206,8 @@ if [ "$MACHINE" != "var-som-mx6" ]; then
     echo "    hostapd \\" >> $BUILD_DIR/conf/local.conf
     echo "    u-boot-splash \\" >> $BUILD_DIR/conf/local.conf
     echo "    runonkeyrls \\" >> $BUILD_DIR/conf/local.conf
+    echo "    brcm-43xx-bluetooth \\" >> $BUILD_DIR/conf/local.conf
+  
     if [ "$BACKEND" = "fb" ]; then
         echo "    qtbase-examples \\" >> $BUILD_DIR/conf/local.conf
     fi

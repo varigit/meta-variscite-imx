@@ -1,0 +1,10 @@
+[Unit]
+Description=BCM4354 Bluetooth firmware download and configuration service
+Before=bluetooth.target
+
+[Service]
+Type=forking
+ExecStart=/etc/bluetooth/brcm-bt-fw-download.sh
+
+[Install]
+WantedBy=multi-user.target
