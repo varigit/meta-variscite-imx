@@ -28,6 +28,9 @@ fi
 if [ $? -eq 0 ]
 then
 	echo "BT found"
+else
+	echo "No BT found"
+	exit 0
 fi
 
 echo $gpio_num >/sys/class/gpio/export
