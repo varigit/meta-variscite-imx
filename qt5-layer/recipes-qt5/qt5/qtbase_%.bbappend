@@ -57,6 +57,6 @@ load(qt_config)
 EOF
 }
 
-PACKAGECONFIG_append_mx6 = " accessibility examples tslib"
-PACKAGECONFIG_append_mx6ul = " examples tslib"
-PACKAGECONFIG_append_mx7 = " examples tslib"
+PACKAGECONFIG_append_mx6 = " accessibility examples linuxfb tslib"
+PACKAGECONFIG_append_mx6ul = " examples linuxfb tslib"
+PACKAGECONFIG_append_mx7 = " examples linuxfb tslib"
