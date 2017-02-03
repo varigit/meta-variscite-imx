@@ -24,8 +24,7 @@ KERNEL_DEFCONFIG_imx6ul-var-dart = "imx6ul-var-dart_defconfig"
 KERNEL_DEFCONFIG_imx7-var-som = "imx7-var-som_defconfig"
 
 do_preconfigure_prepend() {
-   cp ${S}/arch/arm/configs/${KERNEL_DEFCONFIG} ${B}/.config
-   cp ${S}/arch/arm/configs/${KERNEL_DEFCONFIG} ${B}/../defconfig
+   cp ${S}/arch/arm/configs/${KERNEL_DEFCONFIG} ${WORKDIR}/defconfig
 }
 
 do_configure_prepend() {
