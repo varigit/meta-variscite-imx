@@ -9,9 +9,9 @@ DEPENDS += "lzop-native bc-native"
 
 SRCBRANCH = "imx-rel_imx_4.1.15_2.0.0_ga-var01"
 
-LOCALVERSION_var-som-mx6 = "-6QP"
-LOCALVERSION_imx6ul-var-dart = "-6UL"
-LOCALVERSION_imx7-var-som = "-7Dual"
+LOCALVERSION_var-som-mx6 = "-6qp"
+LOCALVERSION_imx6ul-var-dart = "-6ul"
+LOCALVERSION_imx7-var-som = "-7dual"
 
 SRCREV = "bc0cd16ca18f305b8ebae955aa5d87ef38463dfd"
 KERNEL_SRC ?= "git://github.com/varigit/linux-2.6-imx.git;protocol=git"
