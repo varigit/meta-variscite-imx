@@ -47,18 +47,18 @@ help() {
 	echo
 }
 
-if [[ $EUID -ne 0 ]] ; then
+if [ $EUID -ne 0 ] ; then
 	echo "This script must be run with super-user privileges"
 	exit 1
 fi
 
-if [[ $MACHINE == var-som-mx6 ]] ; then
+if [ "$MACHINE" == "var-som-mx6" ] ; then
 	FAT_VOLNAME=BOOT-VARMX6
 	IS_SPL=true
-elif [[ $MACHINE == imx6ul-var-dart ]] ; then
+elif [ "$MACHINE" == "imx6ul-var-dart" ] ; then
 	FAT_VOLNAME=BOOT-VAR6UL
 	IS_SPL=true
-elif [[ $MACHINE == imx7-var-som ]] ; then
+elif [ "$MACHINE" == "imx7-var-som" ] ; then
 	FAT_VOLNAME=BOOT-VARMX7
 	IS_SPL=false
 else
@@ -95,7 +95,7 @@ while [ "$moreoptions" = 1 -a $# -gt 0 ]; do
 	[ "$moreoptions" = 1 ] && shift
 done
 
-if [[ ! -e ${node} ]] ; then
+if [ ! -e "${node}" ] ; then
 	echo "W: Wrong path to the block device!"
 	echo
 	help
@@ -103,7 +103,7 @@ if [[ ! -e ${node} ]] ; then
 fi
 
 part=""
-if [[ $node == *mmcblk* ]] || [[ $node == *loop* ]] ; then
+if [ "$node" == "*mmcblk*" -o "$node" == "*loop*" ] ; then
 	part="p"
 fi
 
@@ -136,7 +136,7 @@ function delete_device
 	echo "Deleting current partitions"
 	for ((i=0; i<=10; i++))
 	do
-		if [[ -e ${node}${part}${i} ]] ; then
+		if [ -e ${node}${part}${i} ] ; then
 			dd if=/dev/zero of=${node}${part}${i} bs=512 count=1024 2> /dev/null || true
 		fi
 	done
@@ -195,7 +195,7 @@ function install_bootloader
 {
 	echo
 	echo "Installing U-Boot"
-	if [[ $IS_SPL == true ]] ; then
+	if [ "$IS_SPL" == "true" ] ; then
 		dd if=${YOCTO_IMGS_PATH}/SPL-sd of=${node} bs=1K seek=1; sync
 		dd if=${YOCTO_IMGS_PATH}/u-boot.img-sd of=${node} bs=1K seek=69; sync
 	else
@@ -262,7 +262,7 @@ function copy_images
 	cp ${YOCTO_RECOVERY_ROOTFS_PATH}/u-boot.im?-nand			${P2_MOUNT_DIR}/opt/images/Yocto/
 	cp ${YOCTO_RECOVERY_ROOTFS_PATH}/u-boot.im?-sd				${P2_MOUNT_DIR}/opt/images/Yocto/
 
-	if [[ $IS_SPL == true ]] ; then
+	if [ "$IS_SPL" == "true" ] ; then
 		cp ${YOCTO_RECOVERY_ROOTFS_PATH}/SPL-nand				${P2_MOUNT_DIR}/opt/images/Yocto/
 		cp ${YOCTO_RECOVERY_ROOTFS_PATH}/SPL-sd					${P2_MOUNT_DIR}/opt/images/Yocto/
 	fi
@@ -274,7 +274,7 @@ function copy_scripts
 	echo "Copying scripts and desktop icons"
 
 	cp ${YOCTO_SCRIPTS_PATH}/echos.sh				${P2_MOUNT_DIR}/usr/bin/
-	if [[ $MACHINE == var-som-mx6 ]] ; then
+	if [ "$MACHINE" == "var-som-mx6" ] ; then
 		cp ${YOCTO_SCRIPTS_PATH}/mx6_install_yocto.sh		${P2_MOUNT_DIR}/usr/bin/install_yocto.sh
 		cp ${YOCTO_SCRIPTS_PATH}/mx6_install_yocto_emmc.sh	${P2_MOUNT_DIR}/usr/bin/install_yocto_emmc.sh
 	else
