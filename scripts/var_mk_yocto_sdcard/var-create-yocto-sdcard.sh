@@ -23,7 +23,7 @@ DEFAULT_ROOTFS_SIZE=3700
 
 AUTO_FILL_SD=0
 SPARE_SIZE=4
-
+LOOP_MAJOR=7
 
 YOCTO_RECOVERY_ROOTFS_PATH=${YOCTO_IMGS_PATH}
 YOCTO_DEFAULT_IMAGE=fsl-image-gui
@@ -45,6 +45,47 @@ help() {
 	echo " 		(default: \"${YOCTO_RECOVERY_ROOTFS_PATH}/${YOCTO_DEFAULT_IMAGE}-\${MACHINE}\")"
 	echo " -n TEXT_FILE	add a release Notes text file"
 	echo
+}
+
+check_sdcard()
+{
+	# Check that parameter is a valid block device
+	if [ ! -b "$node" ]; then
+          echo "$node is not a valid block device, exiting"
+	  return 1
+        fi
+
+	local dev=$(basename $node)
+
+	# Check that /sys/block/$dev exists
+	if [ ! -d /sys/block/$dev ]; then
+	  echo "Directory /sys/block/${dev} missing, exiting"
+	  return 1
+        fi
+
+	# Get device parameters
+	local removable=$(cat /sys/block/${dev}/removable)
+	local block_size=$(cat /sys/class/block/${dev}/queue/physical_block_size)
+	local size_bytes=$((${block_size}*$(cat /sys/class/block/${dev}/size)))
+	local size_gib=$(bc <<< "scale=1; ${size_bytes}/(1024*1024*1024)")
+
+	# Check that device is either removable or loop
+	if [ "$removable" != "1" -a $(stat -c '%t' /dev/$dev) != ${LOOP_MAJOR} ]; then
+          echo "$node is not a removable device, exiting"
+	  return 1
+        fi
+
+	# Check that device is attached
+	if [ ${size_bytes} -eq 0 ]; then
+          echo "$node is not attached, exiting"
+          return 1
+	fi
+
+	echo "Device: ${node}, ${size_gib}GiB"
+	echo "================================================"
+	read -p "Press Enter to continue"
+
+	return 0
 }
 
 if [ $EUID -ne 0 ] ; then
@@ -95,21 +136,16 @@ while [ "$moreoptions" = 1 -a $# -gt 0 ]; do
 	[ "$moreoptions" = 1 ] && shift
 done
 
-if [ ! -e "${node}" ] ; then
-	echo "W: Wrong path to the block device!"
-	echo
-	help
-	exit 1
+
+# Check that we're using a valid device
+if ! check_sdcard; then
+  exit 1
 fi
 
 part=""
 if [ "$node" == "*mmcblk*" -o "$node" == "*loop*" ] ; then
 	part="p"
 fi
-
-echo "Device:  ${node}"
-echo "==============================================="
-read -p "Press Enter to continue"
 
 # Call sfdisk to get total card size
 if [ "${AUTO_FILL_SD}" -eq "1" ]; then
