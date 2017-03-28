@@ -25,7 +25,7 @@ if [ "$MACHINE" != "var-som-mx6" ] ; then
 	echo
 fi
 
-MACHINE=var-som-mx6 ${SCRIPT_POINT}/var-create-yocto-sdcard.sh "$@"
+MACHINE=var-som-mx6 ${SCRIPT_POINT}/var-create-yocto-sdcard.sh "$@" || exit 1
 
 # Parse command line only to get ${node} and ${part}
 moreoptions=1
