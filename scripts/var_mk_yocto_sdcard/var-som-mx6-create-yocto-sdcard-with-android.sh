@@ -19,7 +19,7 @@ TEMP_DIR=./var_tmp
 P1_MOUNT_DIR=${TEMP_DIR}/BOOT-VAR-SOM
 P2_MOUNT_DIR=${TEMP_DIR}/rootfs
 
-if [[ $MACHINE != var-som-mx6 ]] ; then
+if [ "$MACHINE" != "var-som-mx6" ] ; then
 	echo
 	echo "Setting MACHINE=var-som-mx6"
 	echo
@@ -47,7 +47,7 @@ while [ "$moreoptions" = 1 -a $# -gt 0 ]; do
 done
 
 part=""
-if [[ $node == *mmcblk* ]] || [[ $node == *loop* ]] ; then
+if [ "$node" == "*mmcblk*" -o "$node" == "*loop*" ] ; then
 	part="p"
 fi
 
