@@ -3,7 +3,7 @@ set -e
 
 #### Script version ####
 SCRIPT_NAME=${0##*/}
-readonly SCRIPT_VERSION="0.6"
+readonly SCRIPT_VERSION="0.7"
 
 #### Exports Variables ####
 #### global variables ####
@@ -139,11 +139,11 @@ done
 
 # Check that we're using a valid device
 if ! check_sdcard; then
-  exit 1
+	exit 1
 fi
 
 part=""
-if [ "$node" == "*mmcblk*" -o "$node" == "*loop*" ] ; then
+if [[ $node == *mmcblk* ]] || [[ $node == *loop* ]] ; then
 	part="p"
 fi
 
@@ -172,7 +172,7 @@ function delete_device
 	echo "Deleting current partitions"
 	for ((i=0; i<=10; i++))
 	do
-		if [ -e ${node}${part}${i} ] ; then
+		if [ -e "${node}${part}${i}" ] ; then
 			dd if=/dev/zero of=${node}${part}${i} bs=512 count=1024 2> /dev/null || true
 		fi
 	done

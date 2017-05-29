@@ -3,7 +3,7 @@ set -e
 
 #### Script version ####
 SCRIPT_NAME=${0##*/}
-readonly SCRIPT_VERSION="0.6"
+readonly SCRIPT_VERSION="0.7"
 
 #### Exports Variables ####
 #### global variables ####
@@ -25,7 +25,7 @@ if [ "$MACHINE" != "var-som-mx6" ] ; then
 	echo
 fi
 
-MACHINE=var-som-mx6 ${SCRIPT_POINT}/var-create-yocto-sdcard.sh "$@" || exit 1
+MACHINE=var-som-mx6 ${SCRIPT_POINT}/var-create-yocto-sdcard.sh "$@"
 
 # Parse command line only to get ${node} and ${part}
 moreoptions=1
@@ -47,7 +47,7 @@ while [ "$moreoptions" = 1 -a $# -gt 0 ]; do
 done
 
 part=""
-if [ "$node" == "*mmcblk*" -o "$node" == "*loop*" ] ; then
+if [[ $node == *mmcblk* ]] || [[ $node == *loop* ]] ; then
 	part="p"
 fi
 
