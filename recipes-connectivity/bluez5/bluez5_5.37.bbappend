@@ -20,6 +20,10 @@ SRC_URI_append = " \
 	file://obex.service \
 "
 
+SRC_URI_append_imx6ul-var-dart = " \
+	file://variscite-bt-lwb5.conf \
+"
+
 # Required by obexd
 RDEPENDS_${PN} += "glibc-gconv-utf-16"
 
@@ -53,4 +57,8 @@ do_install_append() {
 		update-rc.d -r ${D} bluetooth defaults
 		update-rc.d -r ${D} obexd defaults
 	fi
+}
+
+do_install_append_imx6ul-var-dart() {
+	install -m 0644 ${WORKDIR}/variscite-bt-lwb5.conf ${D}${sysconfdir}/bluetooth
 }
