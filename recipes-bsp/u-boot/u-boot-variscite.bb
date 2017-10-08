@@ -15,7 +15,7 @@ PROVIDES += "u-boot"
 SRCBRANCH = "imx_v2015.04_4.1.15_1.1.0_ga_var03"
 UBOOT_SRC = "git://github.com/varigit/uboot-imx.git;protocol=git"
 SRC_URI = "${UBOOT_SRC};branch=${SRCBRANCH}"
-SRCREV = "cd1971cf177e97282a922d85046f83a2e706e306"
+SRCREV = "3dcc0ab7cb6f8921442b04a8c2eb9842030c25a7"
 
 S = "${WORKDIR}/git"
 
