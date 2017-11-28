@@ -1,9 +1,14 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
-updatercd_preinst() {
-    :
-}
+SRC_URI_append = " \
+	file://init \
+	file://defaults \
+	file://key-replay-cve-multiple.patch \
+"
 
-updatercd_postinst() {
-    :
+do_install_append() {
+	install -d ${D}/${sysconfdir}/init.d
+	install -d ${D}/${sysconfdir}/default
+	install -m 0755 ${WORKDIR}/init ${D}/${sysconfdir}/init.d/hostapd
+	install -m 0644 ${WORKDIR}/defaults ${D}/${sysconfdir}/default/hostapd
 }
