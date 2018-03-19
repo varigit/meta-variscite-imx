@@ -16,13 +16,13 @@ fi
 
 check_images()
 {
-	if [[ ! -f $IMGS_PATH/$UBOOT_IMAGE ]] ; then
-		red_bold_echo "ERROR: \"$IMGS_PATH/$UBOOT_IMAGE\" does not exist"
+	if [[ ! -f $IMGS_PATH/$SPL_IMAGE ]] ; then
+		red_bold_echo "ERROR: \"$IMGS_PATH/$SPL_IMAGE\" does not exist"
 		exit 1
 	fi
 
-	if [[ $IS_SPL == "true" &&  ! -f $IMGS_PATH/$SPL_IMAGE ]] ; then
-		red_bold_echo "ERROR: \"$IMGS_PATH/$SPL_IMAGE\" does not exist"
+	if [[ ! -f $IMGS_PATH/$UBOOT_IMAGE ]] ; then
+		red_bold_echo "ERROR: \"$IMGS_PATH/$UBOOT_IMAGE\" does not exist"
 		exit 1
 	fi
 
@@ -48,14 +48,10 @@ install_bootloader_to_nand()
 	blue_underlined_bold_echo "Installing booloader"
 
 	flash_erase /dev/mtd0 0 0 2> /dev/null
-	if [[ $IS_SPL == "true" ]] ; then
-		kobs-ng init -x $IMGS_PATH/$SPL_IMAGE --search_exponent=1 -v > /dev/null
+	kobs-ng init -x $IMGS_PATH/$SPL_IMAGE --search_exponent=1 -v > /dev/null
 
-		flash_erase /dev/mtd1 0 0 2> /dev/null
-		nandwrite -p /dev/mtd1 $IMGS_PATH/$UBOOT_IMAGE
-	else
-		kobs-ng init -x $IMGS_PATH/$UBOOT_IMAGE --search_exponent=1 -v > /dev/null
-	fi
+	flash_erase /dev/mtd1 0 0 2> /dev/null
+	nandwrite -p /dev/mtd1 $IMGS_PATH/$UBOOT_IMAGE
 
 	flash_erase /dev/mtd2 0 0 2> /dev/null
 	sync
@@ -134,12 +130,8 @@ install_bootloader_to_emmc()
 	echo
 	blue_underlined_bold_echo "Installing booloader"
 
-	if [[ $IS_SPL == "true" ]] ; then
-		dd if=${IMGS_PATH}/${SPL_IMAGE} of=${node} bs=1K seek=1; sync
-		dd if=${IMGS_PATH}/${UBOOT_IMAGE} of=${node} bs=1K seek=69; sync
-	else
-		dd if=${IMGS_PATH}/${UBOOT_IMAGE} of=${node} bs=1K seek=1; sync
-	fi
+	dd if=${IMGS_PATH}/${SPL_IMAGE} of=${node} bs=1K seek=1; sync
+	dd if=${IMGS_PATH}/${UBOOT_IMAGE} of=${node} bs=1K seek=69; sync
 }
 
 install_kernel_to_emmc()
@@ -220,10 +212,8 @@ STR=""
 
 if [[ $BOARD == "mx6ul" ]] ; then
 	STR="DART-6UL"
-	IS_SPL=true
 elif [[ $BOARD == "mx7" ]] ; then
 	STR="VAR-SOM-MX7"
-	IS_SPL=false
 else
 	usage
 	exit 1
@@ -262,16 +252,16 @@ blue_bold_echo $STR
 
 
 if [[ $STORAGE_DEV == "nand" ]] ; then
+	SPL_IMAGE=SPL-nand
+	UBOOT_IMAGE=u-boot.img-nand
+
 	if [[ $BOARD == "mx6ul" ]] ; then
-		SPL_IMAGE=SPL-nand
-		UBOOT_IMAGE=u-boot.img-nand
 		if [[ $DART6UL_VARIANT == "wifi" ]] ; then
 			KERNEL_DTB=imx6ul-var-dart-nand_wifi.dtb
 		elif [[ $DART6UL_VARIANT == "sd" ]] ; then
 			KERNEL_DTB=imx6ul-var-dart-sd_nand.dtb
 		fi
 	elif [[ $BOARD == "mx7" ]] ; then
-		UBOOT_IMAGE=u-boot.imx-nand
 		KERNEL_DTB=imx7d-var-som-nand.dtb
 	fi
 
@@ -289,14 +279,14 @@ if [[ $STORAGE_DEV == "nand" ]] ; then
 	install_kernel_to_nand
 	install_rootfs_to_nand
 elif [[ $STORAGE_DEV == "emmc" ]] ; then
+	SPL_IMAGE=SPL-sd
+	UBOOT_IMAGE=u-boot.img-sd
+
 	if [[ $BOARD == "mx6ul" ]] ; then
 		block=mmcblk1
-		SPL_IMAGE=SPL-sd
-		UBOOT_IMAGE=u-boot.img-sd
 		FAT_VOLNAME=BOOT-VAR6UL
 	elif [[ $BOARD == "mx7" ]] ; then
 		block=mmcblk2
-		UBOOT_IMAGE=u-boot.imx-sd
 		FAT_VOLNAME=BOOT-VARMX7
 	fi
 	node=/dev/${block}
