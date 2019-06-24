@@ -1,0 +1,30 @@
+From 937f69a7d6a3bdce07d92a8d61c0b40ca1933d0d Mon Sep 17 00:00:00 2001
+From: Felix Radensky <felix.r@variscite.com>
+Date: Wed, 12 Jun 2019 12:24:11 +0300
+Subject: [PATCH] gpu: imx: Enable GPU workaround for i.MX8M-Mini with 4GB of
+ RAM
+
+Commit 623458ca36d191a1af6eb8056940a20c48269382 enabled GPU workaround
+for i.MX8M with 4GB of RAM. Enable the same fix for i.MX8M-Mini.
+---
+ .../os/linux/kernel/platform/freescale/gc_hal_kernel_platform_imx.c   | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/src/hal/os/linux/kernel/platform/freescale/gc_hal_kernel_platform_imx.c b/src/hal/os/linux/kernel/platform/freescale/gc_hal_kernel_platform_imx.c
+index 62624d6..7fab5ca 100644
+--- a/src/hal/os/linux/kernel/platform/freescale/gc_hal_kernel_platform_imx.c
++++ b/src/hal/os/linux/kernel/platform/freescale/gc_hal_kernel_platform_imx.c
+@@ -1493,7 +1493,9 @@ _AdjustParam(
+ {
+     patch_param(Platform->device, Args);
+ 
+-    if (of_find_compatible_node(NULL, NULL, "fsl,imx8mq-gpu") && ((Args->baseAddress + totalram_pages * PAGE_SIZE) > 0x100000000))
++    if ((of_find_compatible_node(NULL, NULL, "fsl,imx8mq-gpu") ||
++	 of_find_compatible_node(NULL, NULL, "fsl,imx8mm-gpu")) &&
++	((Args->baseAddress + totalram_pages * PAGE_SIZE) > 0x100000000))
+         Platform->flagBits = gcvPLATFORM_FLAG_LIMIT_4G_ADDRESS;
+ 
+     return gcvSTATUS_OK;
+-- 
+2.7.4
+
