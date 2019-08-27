@@ -90,13 +90,27 @@ wifi_down()
 	echo 0 > /sys/class/gpio/gpio${WIFI_PWR_GPIO}/value
 }
 
+# Return true if SOM has WIFI module assembled
+wifi_is_available()
+{
+	# Read SOM options EEPROM field
+	opt=$(i2cget -f -y 0x0 0x52 0x20)
+
+	# Check WIFI bit in SOM options
+	if [ $((opt & 0x1)) -eq 1 ]; then
+		return 0
+	else
+		return 1
+	fi
+}
+
 # Return true if WIFI should not be started
 wifi_should_not_be_started()
 {
         # Do not enable WIFI if it is already up
         [ -d /sys/class/net/wlan0 ] && return 0
 
-        # Do not enable WIFI if booting from SD on DART-IMX8M          
+        # Do not enable WIFI if booting from SD on DART-MX8M
         if grep -q mmcblk1 /proc/cmdline; then
                 return 0
         fi
@@ -107,22 +121,34 @@ wifi_should_not_be_started()
                 return 0
         fi
 
+	# Enable ethernet and exit if WIFI is not available
+	if ! wifi_is_available; then
+		# WIFI_PWR GPIO is also PWR pin of the Ethernet PHY
+		echo 1 > /sys/class/gpio/gpio${WIFI_PWR_GPIO}/value
+		modprobe fec
+		return 0
+	fi
+
         return 1
 }
 
 # Return true if WIFI should not be stopped
 wifi_should_not_be_stopped()
 {
-        # Do not stop WIFI if booting from SD on DART-IMX8M
+        # Do not stop WIFI if booting from SD on DART-MX8M
         if grep -q mmcblk1 /proc/cmdline; then
                 return 0
         fi
 
         # Do not stop WIFI if booting from eMMC without WIFI
         if ! grep -q WIFI /sys/devices/soc0/machine; then
-                modprobe fec
                 return 0
         fi
+
+	# Do not stop WIFI if it is not available
+	if ! wifi_is_available; then
+		return 0
+	fi
 
         return 1
 }
