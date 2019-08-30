@@ -9,6 +9,8 @@ SRC_URI += " \
 
 FILES_${PN} += "${sysconfdir}/systemd/system/*"
 
+DEPENDS_append = " update-rc.d-native"
+
 do_install_append() {
 	install -d ${D}/${sysconfdir}/dbus-1/system.d
 	install -d ${D}/${sysconfdir}/pulse
