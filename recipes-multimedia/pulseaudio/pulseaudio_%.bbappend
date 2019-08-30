@@ -9,7 +9,6 @@ SRC_URI += " \
 
 FILES_${PN} += "${sysconfdir}/systemd/system/*"
 
-#DEPENDS_append = " update-rc.d-native"
 DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES','systemd','','update-rc.d-native',d)}"
 
 do_install_append() {
