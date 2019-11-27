@@ -167,7 +167,9 @@ install_rootfs_to_emmc()
 		(cd ${MOUNTDIR}/${BOOTDIR}; ln -fs ${DTB_PREFIX}-emmc-wifi-${DISPLAY}-cb12.dtb ${DTB_PREFIX}-cb12.dtb)
 
 		# Install blacklist.conf
-		cp ${MOUNTDIR}/etc/wifi/blacklist.conf ${MOUNTDIR}/etc/modprobe.d
+		if [ -f ${MOUNTDIR}/etc/wifi/blacklist.conf ]; then
+			cp ${MOUNTDIR}/etc/wifi/blacklist.conf ${MOUNTDIR}/etc/modprobe.d
+		fi
 	fi
 
 	# Adjust u-boot-fw-utils for eMMC on the installed rootfs
