@@ -16,3 +16,7 @@ do_compile_prepend() {
 		cp ${DEPLOY_DIR_IMAGE}/${BOOT_TOOLS}/fsl-imx8mm-var-som-rev10.dtb ${S}/iMX8M/
 	fi
 }
+
+do_compile_prepend_imx8qxp-var-som() {
+	cp ${DEPLOY_DIR_IMAGE}/u-boot-spl.bin-${MACHINE}-${UBOOT_CONFIG} ${S}/${SOC_DIR}/u-boot-spl.bin
+}
