@@ -51,19 +51,19 @@ wifi_up()
 
 	# BT_BUF up
 	echo 0 > /sys/class/gpio/gpio${BT_BUF_GPIO}/value
-	
+
 	# Wait at least 150ms
 	usleep 200000
-	
+
 	# BT_BUF down
 	echo 1 > /sys/class/gpio/gpio${BT_BUF_GPIO}/value
 
 	# BT_EN down
 	echo 0 > /sys/class/gpio/gpio${BT_EN_GPIO}/value
-	
+
 	# Bind WIFI device to MMC controller
 	echo ${WIFI_MMC_HOST} > /sys/bus/platform/drivers/sdhci-esdhc-imx/bind
-	
+
 	# Load WIFI driver
 	modprobe brcmfmac
 }
@@ -99,15 +99,7 @@ wifi_down()
 # Return true if SOM has WIFI module assembled
 wifi_is_available()
 {
-	# Read SOM options EEPROM field
-	opt=$(i2cget -f -y 0x0 0x52 0x20)
-
-	# Check WIFI bit in SOM options
-	if [ $((opt & 0x1)) -eq 1 ]; then
-		return 0
-	else
-		return 1
-	fi
+	return 0
 }
 
 # Return true if WIFI should not be started
