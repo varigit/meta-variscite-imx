@@ -6,7 +6,7 @@ SRCBRANCH = "imx_v2018.03_4.14.98_2.0.0_ga_var01"
 SRCBRANCH_imx8mn-var-som = "imx_v2018.03_4.14.98_2.3.0_var01"
 SRC_URI = "${UBOOT_SRC};branch=${SRCBRANCH}"
 SRCREV = "42342c4846a45a950e34bfae198e5e2b19ef6c6e"
-SRCREV_imx8mn-var-som = "5338f18e94201507519c075406f29a72c67f2cd2"
+SRCREV_imx8mn-var-som = "2e644ef790da94126909ac22f7273f75e5c30d97"
 
 S = "${WORKDIR}/git"
 
