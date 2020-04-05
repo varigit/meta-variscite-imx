@@ -22,14 +22,17 @@ LOCALVERSION_imx8mq-var-dart = "-imx8mq"
 LOCALVERSION_imx8mm-var-dart = "-imx8mm"
 LOCALVERSION_imx8mn-var-som = "-imx8mn"
 LOCALVERSION_imx8qxp-var-som = "-imx8x"
+LOCALVERSION_imx8qxpb0-var-som = "-imx8x"
 LOCALVERSION_imx8qm-var-som = "-imx8qm"
 
 KERNEL_DEFCONFIG = "${S}/arch/arm64/configs/imx8_var_defconfig"
 DEFAULT_DTB_imx8mq-var-dart = "sd-lvds"
 DEFAULT_DTB_imx8qxp-var-som = "sd"
+DEFAULT_DTB_imx8qxpb0-var-som = "sd"
 DEFAULT_DTB_imx8qm-var-som = "lvds"
 DEFAULT_DTB_PREFIX_imx8mq-var-dart = "fsl-imx8mq-var-dart"
 DEFAULT_DTB_PREFIX_imx8qxp-var-som = "fsl-imx8qxp-var-som"
+DEFAULT_DTB_PREFIX_imx8qxpb0-var-som = "fsl-imx8qxp-var-som"
 DEFAULT_DTB_PREFIX_imx8qm-var-som = "fsl-imx8qm-var-som"
 
 KERNEL_SRC ?= "git://github.com/varigit/linux-imx;protocol=git"
@@ -57,6 +60,11 @@ pkg_postinst_kernel-devicetree_append_imx8mq-var-dart () {
 }
 
 pkg_postinst_kernel-devicetree_append_imx8qxp-var-som () {
+    cd $D/boot
+    ln -s ${DEFAULT_DTB_PREFIX}-${DEFAULT_DTB}.dtb ${DEFAULT_DTB_PREFIX}.dtb
+}
+
+pkg_postinst_kernel-devicetree_append_imx8qxpb0-var-som () {
     cd $D/boot
     ln -s ${DEFAULT_DTB_PREFIX}-${DEFAULT_DTB}.dtb ${DEFAULT_DTB_PREFIX}.dtb
 }
