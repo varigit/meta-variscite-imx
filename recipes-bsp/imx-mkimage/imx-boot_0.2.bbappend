@@ -23,3 +23,7 @@ do_compile_prepend() {
 do_compile_prepend_imx8qxp-var-som() {
 	cp ${DEPLOY_DIR_IMAGE}/u-boot-spl.bin-${MACHINE}-${UBOOT_CONFIG} ${S}/${SOC_DIR}/u-boot-spl.bin
 }
+
+do_compile_prepend_imx8qxpb0-var-som() {
+	cp ${DEPLOY_DIR_IMAGE}/u-boot-spl.bin-${MACHINE}-${UBOOT_CONFIG} ${S}/${SOC_DIR}/u-boot-spl.bin
+}
