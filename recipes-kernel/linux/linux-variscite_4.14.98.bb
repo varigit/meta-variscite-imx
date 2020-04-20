@@ -15,6 +15,8 @@ DEFAULT_PREFERENCE = "1"
 
 SRCBRANCH = "imx_4.14.98_2.0.0_ga_var01"
 SRCBRANCH_imx8mn-var-som = "imx_4.14.98_2.3.0_var01"
+SRCBRANCH_imx8qxp-var-som = "imx_4.14.98_2.3.0_var01"
+SRCBRANCH_imx8qxpb0-var-som = "imx_4.14.98_2.3.0_var01"
 
 LOCALVERSION_imx8mq-var-dart = "-imx8mq"
 LOCALVERSION_imx8mm-var-dart = "-imx8mm"
@@ -34,6 +36,8 @@ KERNEL_SRC ?= "git://github.com/varigit/linux-imx;protocol=git"
 SRC_URI = "${KERNEL_SRC};branch=${SRCBRANCH}"
 SRCREV = "98788d5dc3bc8b019c1cad502d2d62aca36ec89a"
 SRCREV_imx8mn-var-som = "de780abac56b833822885dc748d1fdeb8ac17d75"
+SRCREV_imx8qxp-var-som = "34fb42488537f21bc0c9a03ab1a2b0088316e1c4"
+SRCREV_imx8qxpb0-var-som = "34fb42488537f21bc0c9a03ab1a2b0088316e1c4"
 
 S = "${WORKDIR}/git"
 
