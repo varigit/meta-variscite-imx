@@ -23,6 +23,7 @@ FILES_${PN} = " \
 
 RDEPENDS_${PN}_imx8qm-var-som = "i2c-tools"
 RDEPENDS_${PN}_imx8qxp-var-som = "i2c-tools"
+RDEPENDS_${PN}_imx8qxpb0-var-som = "i2c-tools"
 RDEPENDS_${PN}_append = " bash base-files"
 
 S = "${WORKDIR}"
