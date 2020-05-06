@@ -111,9 +111,6 @@ if [[ "${soc_name}" = *"mx8d"* ]]; then
 	bootloader_offset=16
 fi
 
-bootloader_file="u-boot-var-imx6-sd.img"
-bootloader_offset=1
-
 if [[ "${soc_name}" = *"mx8mq"* ]]; then
 	bootloader_offset=33
 	if [[ "${soc_name}" = *"dp"* ]]; then
@@ -135,7 +132,7 @@ fi
 
 if [[ "${soc_name}" = *"mx8qm"* ]]; then
 	bootloader_offset=32
-	bootloader_file="u-boot-imx8qm.imx"
+	bootloader_file="u-boot-imx8qm-var-som.imx"
 fi
 
 echo "${soc_name} bootloader is: ${bootloader_file}"
