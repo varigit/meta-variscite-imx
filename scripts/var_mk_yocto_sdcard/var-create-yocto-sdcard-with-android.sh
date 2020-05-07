@@ -90,7 +90,7 @@ function copy_android
 	echo "Copying Android images to /opt/images/"
 	mkdir -p ${ROOTFS_MOUNT_DIR}/opt/images/Android
 
-	cp ${ANDROID_IMGS_PATH}/u-boot-*.imx	${ROOTFS_MOUNT_DIR}/opt/images/Android/
+	cp ${ANDROID_IMGS_PATH}/u-boot-${MACHINE}*.imx		${ROOTFS_MOUNT_DIR}/opt/images/Android/
 	cp ${ANDROID_IMGS_PATH}/boot.img			${ROOTFS_MOUNT_DIR}/opt/images/Android/
 	cp ${ANDROID_IMGS_PATH}/dtbo-*.img			${ROOTFS_MOUNT_DIR}/opt/images/Android/
 	cp ${ANDROID_IMGS_PATH}/vbmeta-*.img			${ROOTFS_MOUNT_DIR}/opt/images/Android/

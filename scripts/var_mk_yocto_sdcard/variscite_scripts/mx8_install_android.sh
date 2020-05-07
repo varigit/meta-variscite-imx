@@ -8,7 +8,7 @@ set -e
 BOOTLOAD_RESERVE=8
 DTBO_ROM_SIZE=4
 BOOT_ROM_SIZE=48
-SYSTEM_ROM_SIZE=1792
+SYSTEM_ROM_SIZE=2560
 MISC_SIZE=4
 METADATA_SIZE=2
 PRESISTDATA_SIZE=1
@@ -127,7 +127,13 @@ fi
 
 if [[ "${soc_name}" = *"mx8qx"* ]]; then
 	bootloader_offset=32
-	bootloader_file="u-boot-imx8qxp.imx"
+	if [[ -f "${imagesdir}/u-boot-imx8qxpb0-var-som.imx" ]]; then
+		bootloader_file="u-boot-imx8qxpb0-var-som.imx"
+	elif [[ -f "${imagesdir}/u-boot-imx8qxp-var-som.imx" ]]; then
+		bootloader_file="u-boot-imx8qxp-var-som.imx"
+	else
+		echo; red_bold_echo "ERROR: no bootloader image present"
+	fi
 fi
 
 if [[ "${soc_name}" = *"mx8qm"* ]]; then
