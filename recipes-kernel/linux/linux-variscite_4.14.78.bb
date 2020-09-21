@@ -24,7 +24,7 @@ DEFAULT_DTB_PREFIX = "fsl-imx8mq-var-dart"
 
 KERNEL_SRC ?= "git://github.com/varigit/linux-imx;protocol=git"
 SRC_URI = "${KERNEL_SRC};branch=${SRCBRANCH}"
-SRCREV = "ac27476bd2d687345640d489e23077b178e835b3"
+SRCREV = "dd3d5b65dcf307a24b858d147f5a8d20cdd64333"
 
 S = "${WORKDIR}/git"
 
