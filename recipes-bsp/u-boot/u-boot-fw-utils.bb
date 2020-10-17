@@ -23,6 +23,11 @@ do_compile_imx6ul-var-dart () {
 	ln -s fw_printenv-nand tools/env/fw_printenv
 }
 
+do_compile_imx8mp-var-dart () {
+        oe_runmake imx8mp_var_dart_defconfig
+        oe_runmake envtools
+}
+
 do_compile_imx8mq-var-dart () {
 	oe_runmake imx8mq_var_dart_defconfig
 	oe_runmake envtools
