@@ -44,17 +44,17 @@ function check_device()
 {
 	# Check that parameter is a valid block device
 	if [ ! -b "$1" ]; then
-          echo "$1 is not a valid block device, exiting"
-	  exit 1
-        fi
+		echo "$1 is not a valid block device, exiting"
+		exit 1
+	fi
 
 	local dev=$(basename $1)
 
 	# Check that /sys/block/$dev exists
 	if [ ! -d /sys/block/$dev ]; then
-	  echo "Directory /sys/block/${dev} missing, exiting"
-	  exit 1
-        fi
+		echo "Directory /sys/block/${dev} missing, exiting"
+		exit 1
+	fi
 
 	# Get device parameters
 	local removable=$(cat /sys/block/${dev}/removable)
@@ -63,25 +63,25 @@ function check_device()
 
 	# Non-removable SD card readers require additional check
 	if [ "${removable}" != "1" ]; then
-          local drive=$(udisksctl info -b /dev/${dev}|grep "Drive:"|cut -d"'" -f 2)
-          local mediaremovable=$(gdbus call --system --dest org.freedesktop.UDisks2 \
+		local drive=$(udisksctl info -b /dev/${dev}|grep "Drive:"|cut -d"'" -f 2)
+		local mediaremovable=$(gdbus call --system --dest org.freedesktop.UDisks2 \
 				  --object-path ${drive} --method org.freedesktop.DBus.Properties.Get \
 				  org.freedesktop.UDisks2.Drive MediaRemovable)
-	  if [[ "${mediaremovable}" = *"true"* ]]; then
-	    removable=1
-	  fi
+		if [[ "${mediaremovable}" = *"true"* ]]; then
+			removable=1
+		fi
 	fi
 
 	# Check that device is either removable or loop
 	if [ "$removable" != "1" -a $(stat -c '%t' /dev/$dev) != ${LOOP_MAJOR} ]; then
-          echo "$1 is not a removable device, exiting"
-	  exit 1
-        fi
+		echo "$1 is not a removable device, exiting"
+		exit 1
+	fi
 
 	# Check that device is attached
 	if [ ${size_bytes} -eq 0 ]; then
-          echo "$1 is not attached, exiting"
-          exit 1
+		echo "$1 is not attached, exiting"
+		exit 1
 	fi
 
 	# Check that device has a valid size
@@ -161,18 +161,18 @@ cal_only=0
 
 while [ "$moreoptions" = 1 -a $# -gt 0 ]; do
 	case $1 in
-	    -h) help; exit 3 ;;
-	    -s) cal_only=1 ;;
-	    -a) AUTO_FILL_SD=1 ;;
-	    -r) shift;
+		-h) help; exit 3 ;;
+		-s) cal_only=1 ;;
+		-a) AUTO_FILL_SD=1 ;;
+		-r) shift;
 			YOCTO_RECOVERY_ROOTFS_MASK_PATH=`readlink -e "${1}.tar.gz"`;
 			YOCTO_RECOVERY_ROOTFS_PATH=`dirname ${YOCTO_RECOVERY_ROOTFS_MASK_PATH}`
 			YOCTO_RECOVERY_ROOTFS_BASE_IN_NAME=`basename ${1}`
-	    ;;
-	    -n) shift;
+			;;
+		-n) shift;
 			RELEASE_NOTES_FILE=${1}
-	    ;;
-	    *)  moreoptions=0; node=$1 ;;
+			;;
+		*)  moreoptions=0; node=$1 ;;
 	esac
 	[ "$moreoptions" = 0 ] && [ $# -gt 1 ] && help && exit 1
 	[ "$moreoptions" = 1 ] && shift
@@ -231,9 +231,9 @@ function delete_device
 
 function ceildiv
 {
-    local num=$1
-    local div=$2
-    echo $(( (num + div - 1) / div ))
+	local num=$1
+	local div=$2
+	echo $(( (num + div - 1) / div ))
 }
 
 function create_parts
