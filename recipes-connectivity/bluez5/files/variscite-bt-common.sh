@@ -141,9 +141,9 @@ bt_stop()
 	hciconfig hci0 down
 
 	if [ "${BT_CHIP}" = "wl18xx" ]; then
-		pidof hciattach > /dev/null && killall -9 hciattach
+		kill -9 $(pidof hciattach) 2>/dev/null || true
 	else
-		pidof brcm_patchram_plus > /dev/null && killall -9 brcm_patchram_plus
+		kill -9 $(pidof brcm_patchram_plus) 2>/dev/null || true
 	fi
 
 	# BT_BUF down
