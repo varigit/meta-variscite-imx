@@ -1,6 +1,6 @@
 # Copyright (C) 2013-2016 Freescale Semiconductor
 # Copyright 2017 NXP
-# Copyright 2018-2019 Variscite Ltd.
+# Copyright 2018-2020 Variscite Ltd.
 # Released under the MIT license (see COPYING.MIT for the terms)
 
 SUMMARY = "Linux kernel provided and supported by Variscite"
@@ -15,9 +15,10 @@ DEPENDS += "lzop-native bc-native"
 
 DEFAULT_PREFERENCE = "1"
 
-SRCBRANCH = "imx_5.4.24_2.1.0_var01"
+SRCBRANCH = "imx_5.4.47_2.2.0_var01"
 
 LOCALVERSION_imx6ul-var-dart = "-imx6ul"
+LOCALVERSION_imx8mp-var-dart = "-imx8mp"
 LOCALVERSION_imx8mq-var-dart = "-imx8mq"
 LOCALVERSION_imx8mm-var-dart = "-imx8mm"
 LOCALVERSION_imx8mn-var-som = "-imx8mn"
@@ -36,7 +37,7 @@ DEFAULT_DTB_PREFIX_imx8qm-var-som = "imx8qm-var-som"
 
 KERNEL_SRC ?= "git://github.com/varigit/linux-imx;protocol=git"
 SRC_URI = "${KERNEL_SRC};branch=${SRCBRANCH}"
-SRCREV = "89dc37c105210b93995d395c37579f283bfa0399"
+SRCREV = "6d581ab60958aefaa6c1c490f1d4a6ba32d52886"
 
 S = "${WORKDIR}/git"
 
