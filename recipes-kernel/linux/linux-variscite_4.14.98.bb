@@ -39,8 +39,8 @@ KERNEL_SRC ?= "git://github.com/varigit/linux-imx;protocol=git"
 SRC_URI = "${KERNEL_SRC};branch=${SRCBRANCH}"
 SRCREV = "98788d5dc3bc8b019c1cad502d2d62aca36ec89a"
 SRCREV_imx8mn-var-som = "39ed0f1e4fc8edae2d20bed16e8260e388484194"
-SRCREV_imx8qxp-var-som = "a67a2e9cf73d5bcf4199b47dbb63bcd4457e8b4a"
-SRCREV_imx8qxpb0-var-som = "a67a2e9cf73d5bcf4199b47dbb63bcd4457e8b4a"
+SRCREV_imx8qxp-var-som = "42b8553bf3d9d059435c780814bd9a9d996e3143"
+SRCREV_imx8qxpb0-var-som = "42b8553bf3d9d059435c780814bd9a9d996e3143"
 
 S = "${WORKDIR}/git"
 
