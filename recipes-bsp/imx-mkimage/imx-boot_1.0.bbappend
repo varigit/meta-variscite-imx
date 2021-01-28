@@ -18,8 +18,12 @@ do_compile_prepend() {
 		cp ${DEPLOY_DIR_IMAGE}/${BOOT_TOOLS}/imx8mn-var-som-rev10.dtb ${S}/iMX8M/
 	fi
 
-	if [ -f ${DEPLOY_DIR_IMAGE}/${BOOT_TOOLS}/imx8mp-var-som.dtb ]; then
-		cp ${DEPLOY_DIR_IMAGE}/${BOOT_TOOLS}/imx8mp-var-som.dtb ${S}/iMX8M/
+        if [ -f ${DEPLOY_DIR_IMAGE}/${BOOT_TOOLS}/imx8mp-var-dart-dt8mcustomboard-legacy.dtb ]; then
+                cp ${DEPLOY_DIR_IMAGE}/${BOOT_TOOLS}/imx8mp-var-dart-dt8mcustomboard-legacy.dtb ${S}/iMX8M/
+        fi
+
+	if [ -f ${DEPLOY_DIR_IMAGE}/${BOOT_TOOLS}/imx8mp-var-som-symphony.dtb ]; then
+		cp ${DEPLOY_DIR_IMAGE}/${BOOT_TOOLS}/imx8mp-var-som-symphony.dtb ${S}/iMX8M/
 	fi
 
 }
