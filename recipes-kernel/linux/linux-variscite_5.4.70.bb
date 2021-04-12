@@ -37,7 +37,7 @@ DEFAULT_DTB_PREFIX_imx8qm-var-som = "imx8qm-var-som"
 
 KERNEL_SRC ?= "git://github.com/varigit/linux-imx;protocol=git"
 SRC_URI = "${KERNEL_SRC};branch=${SRCBRANCH}"
-SRCREV = "bfedd9879e135a8ac854a4a7ea53fda3a9897506"
+SRCREV = "2a54a41aaa9e614d45f307666235537229af3bf0"
 
 S = "${WORKDIR}/git"
 
@@ -68,4 +68,4 @@ pkg_postinst_kernel-devicetree_append_imx8qm-var-som () {
 }
 
 COMPATIBLE_MACHINE = "(mx6|mx8)"
-EXTRA_OEMAKE_append_mx8 = " ARCH=arm64"
+#EXTRA_OEMAKE_append_mx8 = " ARCH=arm64"
