@@ -1,0 +1,2 @@
+SRCREV_opencv = "6a3758aededa9360a4f65404f01aacb5226028a8"
+
