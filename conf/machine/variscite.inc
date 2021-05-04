@@ -32,6 +32,7 @@ MACHINE_EXTRA_RDEPENDS += " \
            bb.utils.contains('DISTRO_FEATURES', 'wayland', 'networkmanager', \
                                                        '', d), d)} \
 	packagegroup-tools-bluetooth \
+	bluez-alsa \
 	pm-utils \
 	rng-tools \
 	wpa-supplicant \
@@ -47,3 +48,6 @@ IMAGE_INSTALL_append_mx8 = " \
 "
 
 IMAGE_FSTYPES = "tar.gz wic.gz"
+
+# Use bluez-alsa instead of pulseaudio
+DISTRO_FEATURES_BACKFILL_CONSIDERED_append = " pulseaudio"
