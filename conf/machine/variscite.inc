@@ -15,6 +15,10 @@ PREFERRED_PROVIDER_u-boot-fw-utils = "u-boot-fw-utils"
 PREFERRED_RPROVIDER_ptpd = "ptpd"
 PREFERRED_RPROVIDER_ptpd-dev = "ptpd"
 
+# Add VPU and Cortex M4/M7 firmware
+MACHINE_FIRMWARE_append_mx8 = " \
+	freertos-variscite \
+	"
 MACHINE_EXTRA_RDEPENDS += " \
 	bcm43xx-utils \
 	brcm-patchram-plus \

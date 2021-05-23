@@ -22,6 +22,7 @@ CM_BOARD="INVALID"
 CM_BOARD_mx8mn="som_mx8mn"
 CM_BOARD_mx8mq="dart_mx8mq"
 CM_BOARD_mx8mm="dart_mx8mm"
+CM_BOARD_mx8mp="dart_mx8mp som_mx8mp"
 CM_BOARD_mx8qm="som_mx8qm"
 CM_BOARD_mx8qxp="som_mx8qx"
 
@@ -145,6 +146,69 @@ do_install() {
         # Install elf
         FILE_CM_FW="$(basename ${DIR_GCC}/${CM_BUILD_TARGET}/*.elf)"
         install -m 644 ${DIR_GCC}/${CM_BUILD_TARGET}/${FILE_CM_FW} ${D}${nonarch_base_libdir}/firmware/cm_${FILE_CM_FW}.${CM_BUILD_TARGET}
+    done
+}
+
+do_compile_imx8mp-var-dart() {
+    # Configure ARMGCC
+    export ARMGCC_DIR="${WORKDIR}/${CM_GCC}"
+
+    # Build all board in CM_BOARD
+    for cm_board in ${CM_BOARD}; do
+echo "$cm_board"
+        # Build all demos in CM_DEMOS
+        for CM_DEMO in ${CM_DEMOS}; do
+            compile_fw "${S}/boards/${cm_board}/${CM_DEMO}/armgcc"
+        done
+    done
+}
+
+do_install_imx8mp-var-dart() {
+    readonly CM_BUILD_TARGETS=" \
+        debug \
+        ddr_debug \
+    "
+
+    # Install scripts
+    install -d ${D}${sysconfdir}/remoteproc
+    install -m 0755 ${WORKDIR}/variscite-rproc-u-boot ${D}${sysconfdir}/remoteproc
+    install -m 0755 ${WORKDIR}/variscite-rproc-linux ${D}${sysconfdir}/remoteproc
+    install -m 0644 ${WORKDIR}/variscite-rproc-common.sh ${D}${sysconfdir}/remoteproc
+    install -m 0644 ${WORKDIR}/variscite-rproc.conf ${D}${sysconfdir}/remoteproc
+
+    # Install firmware
+    install -d ${D}${nonarch_base_libdir}/firmware/
+    install -d ${D}/boot/
+
+    # Install all demos for each board
+    for cm_board in ${CM_BOARD}; do
+
+        case "$cm_board" in
+        dart_mx8mp) :
+            CM_FW_SUFFIX="dart"
+        ;;
+        som_mx8mp) :
+            CM_FW_SUFFIX="som"
+        ;;
+        *) :
+            CM_FW_SUFFIX=""
+        ;;
+        esac
+
+        # Install all demos in CM_DEMOS
+        for CM_DEMO in ${CM_DEMOS}; do
+            DIR_GCC="${S}/boards/${cm_board}/${CM_DEMO}/armgcc"
+            # Install all build targets
+            for CM_BUILD_TARGET in ${CM_BUILD_TARGETS}; do
+                # Install elf
+                FILE_CM_FW="$(basename ${DIR_GCC}/${CM_BUILD_TARGET}/*.elf)"
+                install -m 644 ${DIR_GCC}/${CM_BUILD_TARGET}/${FILE_CM_FW} ${D}${nonarch_base_libdir}/firmware/cm_${FILE_CM_FW}.${CM_BUILD_TARGET}_${CM_FW_SUFFIX}
+
+                # Install bin
+                FILE_CM_FW="$(basename ${DIR_GCC}/${CM_BUILD_TARGET}/*.bin)"
+                install -m 644 ${DIR_GCC}/${CM_BUILD_TARGET}/${FILE_CM_FW} ${D}/boot/cm_${FILE_CM_FW}.${CM_BUILD_TARGET}_${CM_FW_SUFFIX}
+            done
+        done
     done
 }
 
