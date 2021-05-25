@@ -1,2 +1,0 @@
-SRCREV = "4a865797a69dd38c64a86aa32884ecc9ba7b4d08"
-
