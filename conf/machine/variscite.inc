@@ -31,6 +31,9 @@ MACHINE_EXTRA_RDEPENDS += " \
 	${@bb.utils.contains('DISTRO', 'b2qt', '', \
            bb.utils.contains('DISTRO_FEATURES', 'wayland', 'networkmanager', \
                                                        '', d), d)} \
+	${@bb.utils.contains('DISTRO', 'b2qt', '', \
+           bb.utils.contains('DISTRO_FEATURES', 'wayland', 'networkmanager-nmcli', \
+                                                       '', d), d)} \
 	packagegroup-tools-bluetooth \
 	pm-utils \
 	rng-tools \
