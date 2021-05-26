@@ -193,6 +193,10 @@ if [ -d ../sources/meta-freescale ]; then
     sed -e "s,\$.BSPDIR./sources/meta-fsl-arm-extra\s,,g" -i conf/bblayers.conf
 fi
 
+# Mask libdrm recipe under meta-imx/beta-bsp
+echo -e "\n# Mask libdrm recipe under meta-imx/beta-bsp" >> $BUILD_DIR/conf/bblayers.conf
+echo "BBMASK += \"/meta-imx/meta-bsp/recipes-graphics/drm/libdrm_2.4.102.imx.bb\"" >> $BUILD_DIR/conf/bblayers.conf
+
 cd  $BUILD_DIR
 clean_up
 unset FSLDISTRO
