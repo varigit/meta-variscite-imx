@@ -9,13 +9,23 @@ with focus on i.MX Family SOMs. It includes support for many IPs such as GPU, VP
 
 require recipes-kernel/linux/linux-imx.inc
 LICENSE = "GPLv2"
-LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
+LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+
+FILES_${KERNEL_PACKAGE_NAME}-base += "${nonarch_base_libdir}/modules/${KERNEL_VERSION}/modules.builtin.modinfo "
 
 DEPENDS += "lzop-native bc-native"
 
 DEFAULT_PREFERENCE = "1"
 
-SRCBRANCH = "imx_5.4.70_2.3.0_var01"
+SRCBRANCH = "lf-5.10.y_var01"
+KERNEL_SRC ?= "git://github.com/varigit/linux-imx;protocol=git"
+SRC_URI = "${KERNEL_SRC};branch=${SRCBRANCH}"
+SRCREV = "55beb0990e4e87a576fd38e7b1b9acfeda582cc8"
+LINUX_VERSION = "5.10.9"
+
+KERNEL_CONFIG_COMMAND = "oe_runmake_call -C ${S} CC="${KERNEL_CC}" O=${B} olddefconfig"
+
+FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 
 LOCALVERSION_imx6ul-var-dart = "-imx6ul"
 LOCALVERSION_imx8mp-var-dart = "-imx8mp"
@@ -25,9 +35,9 @@ LOCALVERSION_imx8mn-var-som = "-imx8mn"
 LOCALVERSION_imx8qxp-var-som = "-imx8x"
 LOCALVERSION_imx8qm-var-som = "-imx8qm"
 
-KERNEL_DEFCONFIG_mx6 = "${S}/arch/arm/configs/imx_v7_var_defconfig"
-KERNEL_DEFCONFIG_mx8 = "${S}/arch/arm64/configs/imx8_var_defconfig"
-KERNEL_DEFCONFIG_imx8mq-var-dart = "${S}/arch/arm64/configs/imx8mq_var_dart_defconfig"
+KBUILD_DEFCONFIG_mx6 = "imx_v7_var_defconfig"
+KBUILD_DEFCONFIG_mx8 = "imx8_var_defconfig"
+KBUILD_DEFCONFIG_imx8mq-var-dart = "imx8mq_var_dart_defconfig"
 DEFAULT_DTB_imx8mq-var-dart = "sd-lvds"
 DEFAULT_DTB_imx8qxp-var-som = "sd"
 DEFAULT_DTB_imx8qm-var-som = "lvds"
@@ -35,16 +45,14 @@ DEFAULT_DTB_PREFIX_imx8mq-var-dart = "imx8mq-var-dart"
 DEFAULT_DTB_PREFIX_imx8qxp-var-som = "imx8qxp-var-som"
 DEFAULT_DTB_PREFIX_imx8qm-var-som = "imx8qm-var-som"
 
-KERNEL_SRC ?= "git://github.com/varigit/linux-imx;protocol=git"
-SRC_URI = "${KERNEL_SRC};branch=${SRCBRANCH}"
-SRCREV = "2a54a41aaa9e614d45f307666235537229af3bf0"
+#S = "${WORKDIR}/git"
 
-S = "${WORKDIR}/git"
-
-addtask copy_defconfig after do_patch before do_preconfigure
-do_copy_defconfig () {
-    cp ${KERNEL_DEFCONFIG} ${WORKDIR}/defconfig
-}
+#addtask copy_defconfig after do_patch before do_preconfigure
+#addtask copy_defconfig after do_kernel_configme before do_preconfigure
+#do_copy_defconfig () {
+#    cp ${S}/arch/${ARCH}/configs/${KBUILD_DEFCONFIG} ${WORKDIR}/defconfig
+#    cp ${S}/arch/${ARCH}/configs/${KBUILD_DEFCONFIG} ${B}/.config
+#}
 
 pkg_postinst_kernel-devicetree_append () {
    rm -f $D/boot/devicetree-*
@@ -67,5 +75,5 @@ pkg_postinst_kernel-devicetree_append_imx8qm-var-som () {
     ln -s imx8qm-var-spear-${DEFAULT_DTB}.dtb imx8qm-var-spear.dtb
 }
 
+KERNEL_VERSION_SANITY_SKIP="1"
 COMPATIBLE_MACHINE = "(mx6|mx8)"
-#EXTRA_OEMAKE_append_mx8 = " ARCH=arm64"

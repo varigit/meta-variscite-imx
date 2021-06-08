@@ -2,8 +2,6 @@ INHERIT += "image-buildinfo"
 
 MACHINE_FEATURES += " pci bluetooth wifi"
 
-PREFERRED_VERSION_linux-variscite = "5.4.70"
-
 KERNEL_IMAGETYPE_mx8 = "Image.gz"
 
 SOC_DEFAULT_WKS_FILE_mx8 = "imx-imx-boot-bootpart1.wks.in"
