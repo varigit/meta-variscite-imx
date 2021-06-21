@@ -6,7 +6,7 @@ DEPENDS += "bison-native"
 UBOOT_SRC ?= "git://github.com/varigit/uboot-imx;protocol=git"
 
 SRCBRANCH = "lf-5.4.y_v2019.04_var01"
-SRCREV = "b47ea7e112eedc0e9f50cc15b585dee71ac4a001"
+SRCREV = "3f4358b340b0fe8aa7f8b7ad80ce36d83e717041"
 
 SRCBRANCH_imx6ul-var-dart = "imx_v2018.03_4.14.78_1.0.0_ga_var02"
 SRCREV_imx6ul-var-dart = "d4cc2d37ec7f8fade9a292c238c319e88367f330"
