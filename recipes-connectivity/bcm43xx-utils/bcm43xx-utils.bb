@@ -10,26 +10,30 @@ SRC_URI = " \
 	file://variscite-wifi-common.sh \
 	file://variscite-wifi.service \
 	file://variscite-wifi.conf \
+	file://variscite-bt \
+	file://variscite-bt.service \
 "
 
 FILES_${PN} = " \ 
 	/etc/wifi/*  \
-	/etc/init.d/* \
-	/etc/rcS.d/* \
-	/etc/modprobe.d \
-	/lib/systemd/system/* \
-	/etc/systemd/system/* \
+	/etc/bluetooth/*  \
+        ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '${systemd_unitdir}/system/* ${sysconfdir}/systemd/system/multi-user.target.wants/*', \
+		'${sysconfdir}/init.d ${sysconfdir}/rcS.d ${sysconfdir}/rc2.d ${sysconfdir}/rc3.d ${sysconfdir}/rc4.d ${sysconfdir}/rc5.d', d)} \
 "
 
 RDEPENDS_${PN}_imx8mq-var-dart = "i2c-tools"
 RDEPENDS_${PN}_imx8mm-var-dart = "i2c-tools"
 RDEPENDS_${PN}_imx8mn-var-som = "i2c-tools"
+RDEPENDS_${PN}_imx8mp-var-dart = "i2c-tools"
 RDEPENDS_${PN}_append = " bash base-files"
 
 S = "${WORKDIR}"
 
 do_install() {
 	install -d ${D}${sysconfdir}/wifi
+	install -d ${D}${sysconfdir}/bluetooth
+
+	install -m 0755 ${WORKDIR}/variscite-bt ${D}/${sysconfdir}/bluetooth
 	install -m 0644 ${WORKDIR}/variscite-wifi.conf ${D}${sysconfdir}/wifi
 	install -m 0644 ${WORKDIR}/variscite-wifi-common.sh ${D}/${sysconfdir}/wifi
 	install -m 0755 ${WORKDIR}/variscite-wifi ${D}/${sysconfdir}/wifi
@@ -38,12 +42,19 @@ do_install() {
 		install -d ${D}${systemd_unitdir}/system
 		install -d ${D}${sysconfdir}/systemd/system/multi-user.target.wants
 		install -m 0644 ${WORKDIR}/variscite-wifi.service ${D}/${systemd_unitdir}/system
+		install -m 0644 ${WORKDIR}/variscite-bt.service ${D}/${systemd_unitdir}/system
  
 		ln -sf ${systemd_unitdir}/system/variscite-wifi.service \
 			${D}${sysconfdir}/systemd/system/multi-user.target.wants/variscite-wifi.service
+
+		ln -sf ${systemd_unitdir}/system/variscite-bt.service \
+			${D}${sysconfdir}/systemd/system/multi-user.target.wants/variscite-bt.service
 	else
 		install -d ${D}${sysconfdir}/init.d
 		ln -s ${sysconfdir}/wifi/variscite-wifi ${D}${sysconfdir}/init.d/variscite-wifi
 		update-rc.d -r ${D} variscite-wifi start 5 S .
+
+		ln -s ${sysconfdir}/bluetooth/variscite-bt ${D}${sysconfdir}/init.d/variscite-bt
+		update-rc.d -r ${D} variscite-bt start 99 2 3 4 5 .
 	fi
 }
