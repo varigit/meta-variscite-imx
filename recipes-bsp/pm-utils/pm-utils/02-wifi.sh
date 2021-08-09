@@ -1,20 +1,13 @@
 #!/bin/sh
 
-. /etc/wifi/variscite-wifi.conf
-. /etc/wifi/variscite-wifi-common.sh
-
-# Exit if WIFI is not available
-if wifi_should_not_be_stopped; then
-        exit 0
-fi
+[ -x /etc/wifi/variscite-wifi ] || exit 0
 
 case $1 in
 
 "suspend")
-        wifi_down
+        /etc/wifi/variscite-wifi stop
         ;;
 "resume")
-        wifi_up
+        /etc/wifi/variscite-wifi start
         ;;
 esac
-
