@@ -193,6 +193,10 @@ if [ -d ../sources/meta-freescale ]; then
     sed -e "s,\$.BSPDIR./sources/meta-fsl-arm-extra\s,,g" -i conf/bblayers.conf
 fi
 
+# Mask xorg-xserver recipe under meta-freescale
+echo -e "\n# Mask xorg-xserver recipe under meta-freescale" >> $BUILD_DIR/conf/bblayers.conf
+echo "BBMASK += \"/meta-freescale/recipes-graphics/xorg-xserver/xserver-xorg_%.bbappend\"" >> $BUILD_DIR/conf/bblayers.conf
+
 cd  $BUILD_DIR
 clean_up
 unset FSLDISTRO
