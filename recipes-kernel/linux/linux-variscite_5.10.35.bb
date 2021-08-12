@@ -17,11 +17,11 @@ DEPENDS += "lzop-native bc-native"
 
 DEFAULT_PREFERENCE = "1"
 
-SRCBRANCH = "lf-5.10.y_var01"
+SRCBRANCH = "lf-5.10.y_var02"
 KERNEL_SRC ?= "git://github.com/varigit/linux-imx;protocol=git"
 SRC_URI = "${KERNEL_SRC};branch=${SRCBRANCH}"
-SRCREV = "45d70e2d004619e17e37cf5dc284a03953a4f47f"
-LINUX_VERSION = "5.10.9"
+SRCREV = "c627b8136dc6d85db237d2e0ac20fe531f90e460"
+LINUX_VERSION = "5.10.35"
 
 KERNEL_CONFIG_COMMAND = "oe_runmake_call -C ${S} CC="${KERNEL_CC}" O=${B} olddefconfig"
 
