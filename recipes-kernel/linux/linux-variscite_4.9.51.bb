@@ -22,7 +22,7 @@ DEFAULT_DTB = "sd-emmc-dcss-lvds"
 
 KERNEL_SRC ?= "git://github.com/varigit/linux-imx;protocol=git"
 SRC_URI = "${KERNEL_SRC};branch=${SRCBRANCH}"
-SRCREV = "b5e6e839c16b8852a666a89722b54caea93eba64"
+SRCREV = "3fa441a323c6fb42d748c17af87076de7a6fc8cc"
 
 S = "${WORKDIR}/git"
 
