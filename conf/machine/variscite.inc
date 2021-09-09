@@ -6,7 +6,7 @@ IMX_DEFAULT_BOOTLOADER_imx = "u-boot-variscite"
 
 KERNEL_IMAGETYPE_mx8 = "Image.gz"
 
-SOC_DEFAULT_WKS_FILE_mx8 = "imx-imx-boot-bootpart1.wks.in"
+WKS_FILE_mx8 = "imx-imx-boot-singlepart.wks.in"
 
 DEFAULTTUNE_mx8mm  ?= "cortexa53-crypto"
 DEFAULTTUNE_mx8mn  ?= "cortexa53-crypto"
