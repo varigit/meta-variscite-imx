@@ -8,6 +8,7 @@ inherit pythonnative
 
 PROVIDES += "u-boot"
 DEPENDS_append = " python dtc-native"
+FILESEXTRAPATHS_prepend := "${THISDIR}/u-boot-fw-utils:"
 
 include u-boot-common.inc
 
@@ -16,6 +17,8 @@ inherit fsl-u-boot-localversion
 LOCALVERSION ?= "-${SRCBRANCH}"
 
 BOOT_TOOLS = "imx-boot-tools"
+
+SRC_URI += "file://fw_env.config"
 
 do_deploy_append_mx8m () {
     # Deploy the mkimage, u-boot-nodtb.bin and the U-Boot dtb for mkimage to generate boot binary
