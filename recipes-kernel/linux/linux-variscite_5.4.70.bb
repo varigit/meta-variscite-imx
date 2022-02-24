@@ -37,7 +37,7 @@ DEFAULT_DTB_PREFIX_imx8qm-var-som = "imx8qm-var-som"
 
 KERNEL_SRC ?= "git://github.com/varigit/linux-imx;protocol=git"
 SRC_URI = "${KERNEL_SRC};branch=${SRCBRANCH}"
-SRCREV = "e53aafe5c7e6506c4fef88816a5636966d1d0f72"
+SRCREV = "327a3d5959ed5856cad27493d7cc9af560c36b04"
 
 S = "${WORKDIR}/git"
 
