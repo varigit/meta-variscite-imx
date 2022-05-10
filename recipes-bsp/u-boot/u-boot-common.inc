@@ -12,8 +12,8 @@ SRC_URI = "${UBOOT_SRC};branch=${SRCBRANCH}"
 
 SRCREV = "425836b51812390b258b1808da7e2d20c79371da"
 SRCREV_imx8mn-var-som = "08808c6df97ee2f14f411551fdf2872929638798"
-SRCREV_imx8qxp-var-som = "f27b3a701d206dcbb2a444fc2f6fbd5255eba38c"
-SRCREV_imx8qxpb0-var-som = "f27b3a701d206dcbb2a444fc2f6fbd5255eba38c"
+SRCREV_imx8qxp-var-som = "acca2dc4126398fdc145f19bd7301912c3d5f732"
+SRCREV_imx8qxpb0-var-som = "acca2dc4126398fdc145f19bd7301912c3d5f732"
 
 S = "${WORKDIR}/git"
 
