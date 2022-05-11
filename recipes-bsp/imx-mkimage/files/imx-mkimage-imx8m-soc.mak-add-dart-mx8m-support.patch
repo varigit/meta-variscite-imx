@@ -27,7 +27,7 @@ index b7b3986..a355d1c 100644
  dtbs = evk.dtb
  $(dtbs):
 -	./$(DTB_PREPROC) $(PLAT)-evk.dtb $(dtbs)
-+	./$(DTB_PREPROC) $(PLAT)-var-dart.dtb $(dtbs)
++	./$(DTB_PREPROC) $(PLAT)-var-dart-customboard.dtb $(dtbs)
  
  u-boot.itb: $(dtbs)
  	./$(PAD_IMAGE) tee.bin
