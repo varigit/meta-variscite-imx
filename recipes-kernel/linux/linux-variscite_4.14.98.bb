@@ -30,7 +30,7 @@ DEFAULT_DTB_PREFIX_imx8mq-var-dart = "fsl-imx8mq-var-dart"
 DEFAULT_DTB_PREFIX_imx8qxp-var-som = "fsl-imx8qxp-var-som"
 DEFAULT_DTB_PREFIX_imx8qm-var-som = "fsl-imx8qm-var-som"
 
-KERNEL_SRC ?= "git://github.com/varigit/linux-imx;protocol=git"
+KERNEL_SRC ?= "git://github.com/varigit/linux-imx;protocol=https"
 SRC_URI = "${KERNEL_SRC};branch=${SRCBRANCH}"
 SRCREV = "1d0ed2d4bef2dda91e7da326148812979742a315"
 SRCREV_imx8mn-var-som = "14b26bad1d957d527424f8bdb1f605f62e593943"
