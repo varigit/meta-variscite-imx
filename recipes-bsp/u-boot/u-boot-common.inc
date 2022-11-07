@@ -5,7 +5,7 @@ DEPENDS += "bison-native"
 
 UBOOT_SRC ?= "git://github.com/varigit/uboot-imx;protocol=git"
 SRCBRANCH = "imx_v2019.04_4.19.35_1.1.0-var01"
-SRCREV = "2467eac7a0e55ee52683e62d6cc9c032a360d9bc"
+SRCREV = "a06529b4a1320e099a0f9eef51e5de342a75dcbc"
 SRC_URI = "${UBOOT_SRC};branch=${SRCBRANCH}"
 
 S = "${WORKDIR}/git"
