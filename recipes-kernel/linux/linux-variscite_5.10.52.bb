@@ -20,7 +20,7 @@ DEFAULT_PREFERENCE = "1"
 SRCBRANCH = "lf-5.10.y_var03"
 KERNEL_SRC ?= "git://github.com/varigit/linux-imx;protocol=git"
 SRC_URI = "${KERNEL_SRC};branch=${SRCBRANCH}"
-SRCREV = "d36c69d1246282f2c479f04027cdaf67a6f90153"
+SRCREV = "ba9ade6851ca01e1e46a545fe96d059db522a03f"
 LINUX_VERSION = "5.10.52"
 
 KERNEL_CONFIG_COMMAND = "oe_runmake_call -C ${S} CC="${KERNEL_CC}" O=${B} olddefconfig"
