@@ -1,3 +1,5 @@
+require variscite-mirrors.inc
+
 MACHINE_FEATURES += " pci bluetooth wifi"
 
 PREFERRED_VERSION_linux-variscite = "5.4.3"
