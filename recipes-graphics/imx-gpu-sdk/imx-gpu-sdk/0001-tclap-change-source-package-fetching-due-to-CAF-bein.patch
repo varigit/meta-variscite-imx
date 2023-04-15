@@ -1,0 +1,35 @@
+From 9ce151fc981067766a0458501688b1869bf64861 Mon Sep 17 00:00:00 2001
+From: Alifer Moraes <alifer.m@variscite.com>
+Date: Fri, 14 Apr 2023 23:09:14 -0300
+Subject: [PATCH] tclap: change source package fetching due to CAF being shut
+ down
+
+As of March 31, 2023, all codeaurora.org repositories have been migrated to
+other platforms and the project has been shut down.
+For more information, please visit: https://bye.codeaurora.org/
+
+Fetch tclap from sourceforge instead.
+
+Signed-off-by: Alifer Moraes <alifer.m@variscite.com>
+---
+ ThirdParty/Recipe/tclap_1_2_2/Fsl.gen | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/ThirdParty/Recipe/tclap_1_2_2/Fsl.gen b/ThirdParty/Recipe/tclap_1_2_2/Fsl.gen
+index 152d8a66..525da71e 100644
+--- a/ThirdParty/Recipe/tclap_1_2_2/Fsl.gen
++++ b/ThirdParty/Recipe/tclap_1_2_2/Fsl.gen
+@@ -3,8 +3,8 @@
+   <ExternalLibrary Name="Recipe.tclap_1_2_2">
+     <ExperimentalRecipe Name="tclap-1.2.2">
+       <Pipeline>
+-        <!--Download URL="https://sourceforge.net/projects/tclap/files/tclap-1.2.2.tar.gz" Hash="f5013be7fcaafc69ba0ce2d1710f693f61e9c336b6292ae4f57554f59fde5837"/-->
+-        <Download URL="https://source.codeaurora.org/mirrored_source/external/imx/tclap-1.2.2.tar.gz" Hash="f5013be7fcaafc69ba0ce2d1710f693f61e9c336b6292ae4f57554f59fde5837"/>
++        <Download URL="https://sourceforge.net/projects/tclap/files/tclap-1.2.2.tar.gz" Hash="f5013be7fcaafc69ba0ce2d1710f693f61e9c336b6292ae4f57554f59fde5837"/>
++        <!--Download URL="https://source.codeaurora.org/mirrored_source/external/imx/tclap-1.2.2.tar.gz" Hash="f5013be7fcaafc69ba0ce2d1710f693f61e9c336b6292ae4f57554f59fde5837"/-->
+         <Unpack File="tclap-1.2.2.tar.gz" OutputPath="tclap-1.2.2">
+           <Delete Path="config"/>
+           <Delete Path="docs"/>
+-- 
+2.25.1
+
