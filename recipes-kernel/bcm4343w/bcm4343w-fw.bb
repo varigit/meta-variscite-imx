@@ -9,7 +9,7 @@ PR = "r1"
 
 PROVIDES += "bcm4343w-fw"
 
-SRC_URI = "git://github.com/varigit/bcm_4343w_fw.git;protocol=git;branch=imx-rel_imx_4.1.15_2.0.1_ga-var01"
+SRC_URI = "git://github.com/varigit/bcm_4343w_fw.git;protocol=https;branch=imx-rel_imx_4.1.15_2.0.1_ga-var01"
 SRCREV = "${AUTOREV}"
 
 do_install() {
