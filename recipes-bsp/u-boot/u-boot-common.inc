@@ -5,7 +5,7 @@ UBOOT_SRC ?= "git://github.com/varigit/uboot-imx;protocol=https"
 SRCBRANCH = "imx_v2018.03_4.14.98_2.0.0_ga_var01"
 SRCBRANCH_imx8mn-var-som = "imx_v2018.03_4.14.98_2.3.0_var01"
 SRC_URI = "${UBOOT_SRC};branch=${SRCBRANCH}"
-SRCREV = "c67389b3e5a88f299809771a8287d0cf01a2738a"
+SRCREV = "5f1fe6712eed7aa858c9ca7538af6ccec066c041"
 SRCREV_imx8mn-var-som = "08808c6df97ee2f14f411551fdf2872929638798"
 
 S = "${WORKDIR}/git"
