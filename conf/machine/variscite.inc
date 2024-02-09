@@ -18,8 +18,15 @@ PREFERRED_PROVIDER_u-boot-fw-utils = "u-boot-fw-utils"
 PREFERRED_RPROVIDER_ptpd = "ptpd"
 PREFERRED_RPROVIDER_ptpd-dev = "ptpd"
 
+MACHINE_EXTRA_IW61X = " \
+	kernel-module-nxp-wlan \
+	linux-firmware-nxpiw612-sdio \
+	bcm43xx-utils-iw61x \
+"
+
 MACHINE_EXTRA_RDEPENDS += " \
 	bcm43xx-utils \
+	${@bb.utils.contains('MACHINE_FEATURES', 'nxpiw612-sdio', '${MACHINE_EXTRA_IW61X}', '', d)} \
 	brcm-patchram-plus \
 	gptfdisk \
 	hostapd \
