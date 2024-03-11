@@ -10,7 +10,14 @@ SRC_URI = " \
 	file://variscite-wifi-common.sh \
 	file://variscite-wifi.service \
 	file://variscite-wifi.conf \
+	file://99-iw61x-unmanaged-devices.conf \
+	file://var_wifi_mod_para.conf \
 "
+
+PACKAGECONFIG ??= "networkmanager"
+PACKAGECONFIG[networkmanager] = "--with-networkmanager,--without-networkmanager"
+
+PACKAGES += "${PN}-iw61x"
 
 FILES_${PN} = " \ 
 	/etc/wifi/*  \
@@ -19,6 +26,11 @@ FILES_${PN} = " \
 	/etc/modprobe.d \
 	/lib/systemd/system/* \
 	/etc/systemd/system/* \
+"
+
+FILES_${PN}-iw61x = " \
+	/etc/NetworkManager/conf.d/* \
+	/lib/firmware/nxp/var_wifi_mod_para.conf \
 "
 
 RDEPENDS_${PN}_imx8mq-var-dart = "i2c-tools"
@@ -46,4 +58,12 @@ do_install() {
 		ln -s ${sysconfdir}/wifi/variscite-wifi ${D}${sysconfdir}/init.d/variscite-wifi
 		update-rc.d -r ${D} variscite-wifi start 5 S .
 	fi
+
+	if [ "${@bb.utils.contains('PACKAGECONFIG', 'networkmanager', 'yes', 'no', d)}" = "yes" ]; then
+		install -d ${D}/${sysconfdir}/NetworkManager/conf.d
+		install -m 0644 ${WORKDIR}/99-iw61x-unmanaged-devices.conf ${D}/${sysconfdir}/NetworkManager/conf.d
+	fi
+
+	install -d ${D}${nonarch_base_libdir}/firmware/nxp
+	install -m 0755 ${WORKDIR}/var_wifi_mod_para.conf ${D}${nonarch_base_libdir}/firmware/nxp
 }
