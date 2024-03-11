@@ -7,6 +7,9 @@ board_is_dart_mx8m_mini()
 # Setup WIFI control GPIOs
 wifi_pre_up()
 {
+	# Return if wifi is iw61x, which is managed by the kernel
+	wifi_is_bcm43xx || return
+
 	if [ ! -d /sys/class/gpio/gpio${WIFI_3V3_GPIO} ]; then
 		echo ${WIFI_3V3_GPIO} > /sys/class/gpio/export
 		echo out > /sys/class/gpio/gpio${WIFI_3V3_GPIO}/direction
@@ -35,8 +38,51 @@ wifi_pre_up()
 	fi
 }
 
-# Power up WIFI chip
-wifi_up()
+# Get the SOM revision
+get_somrev() {
+	# Get the raw output
+	raw_output=$(i2cget -f -y 0x0 0x52 0x1e)
+
+	# Convert the output to decimal
+	decimal_output=$(( $raw_output ))
+
+	# Extract major and minor versions
+	major=$(( ($decimal_output & 0xE0) >> 5 ))
+	minor=$(( $decimal_output & 0x1F ))
+
+	# Adjust the major version as per the specification
+	major=$(( $major + 1 ))
+
+	echo "$major.$minor"
+}
+
+# Check if wifi is bcm43xx
+wifi_is_bcm43xx() {
+	somrev=$(get_somrev)
+
+	if [ "$(echo "$somrev < 2.0" | bc)" -eq 1 ]; then
+		return 0
+	else
+		return 1
+	fi
+}
+
+# Function to disable a network interface
+disable_network_interface() {
+	local iface="$1"
+
+	# Check if the interface exists
+	if ip link show "$iface" &>/dev/null; then
+		ip link set dev "$iface" down
+	fi
+}
+
+wifi_up_iw61x()
+{
+	modprobe moal mod_para=nxp/var_wifi_mod_para.conf
+}
+
+wifi_up_bcm43xx()
 {
 	# Unbind WIFI device from MMC controller
 	if [ -e /sys/bus/platform/drivers/sdhci-esdhc-imx/${WIFI_MMC_HOST} ]; then
@@ -82,8 +128,25 @@ wifi_up()
 	modprobe brcmfmac
 }
 
-# Power down WIFI chip
-wifi_down()
+# Power up WIFI chip
+wifi_up()
+{
+	if wifi_is_bcm43xx; then
+		wifi_up_bcm43xx
+	else
+		wifi_up_iw61x
+	fi
+}
+
+wifi_down_iw61x()
+{
+	disable_network_interface wlan0
+	disable_network_interface uap0
+	disable_network_interface wfd0
+	modprobe -r moal;
+}
+
+wifi_down_bcm43xx()
 {
 	# Unload WIFI driver
 	modprobe -r brcmfmac
@@ -114,6 +177,16 @@ wifi_down()
 
 	# WIFI_3V3 down
 	echo 0 > /sys/class/gpio/gpio${WIFI_3V3_GPIO}/value
+}
+
+# Power down WIFI chip
+wifi_down()
+{
+	if wifi_is_bcm43xx; then
+		wifi_down_bcm43xx
+	else
+		wifi_down_iw61x
+	fi
 }
 
 # Return true if SOM has WIFI module assembled
