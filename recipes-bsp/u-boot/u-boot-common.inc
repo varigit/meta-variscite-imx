@@ -9,7 +9,7 @@ SRCBRANCH = "lf-5.4.y_v2019.04_var01"
 SRCREV = "4758f8090d68f284cd7a553f759e5eb7af90c5e3"
 
 SRCBRANCH_imx6ul-var-dart = "imx_v2018.03_4.14.78_1.0.0_ga_var02"
-SRCREV_imx6ul-var-dart = "d4cc2d37ec7f8fade9a292c238c319e88367f330"
+SRCREV_imx6ul-var-dart = "f3764c66fe7d0bdaa3363f63c70239e0c30cb355"
 
 SRC_URI = "${UBOOT_SRC};branch=${SRCBRANCH}"
 
