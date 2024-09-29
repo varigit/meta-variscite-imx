@@ -31,6 +31,25 @@ bt_detect_iw61x()
 	echo "BT Model: $BT_CHIP"
 }
 
+
+bt_set_vars()
+{
+	if som_is_var_som_mx8mp; then
+		BT_EN_GPIO=${BT_EN_GPIO_SOM}
+		BT_BUF_GPIO=${BT_BUF_GPIO_SOM}
+		BT_TTY_DEV=${BT_TTY_DEV_SOM}
+	fi
+
+	# DART-MX8M-PLUS v2.0 enables the BT with active high
+	if grep -q 'DART-MX8M-PLUS v2' /sys/devices/soc0/machine; then
+		BT_BUF_ENABLE=1
+		BT_BUF_DISABLE=0
+	else
+		BT_BUF_ENABLE=0
+		BT_BUF_DISABLE=1
+	fi
+}
+
 # Return true if SoC is from NXP i.MX8 family
 soc_is_imx8()
 {
@@ -52,11 +71,7 @@ som_is_var_som_mx8mp()
 # Enable BT via GPIO(s)
 enable_bt()
 {
-	if som_is_var_som_mx8mp; then
-		BT_EN_GPIO=${BT_EN_GPIO_SOM}
-		BT_BUF_GPIO=${BT_BUF_GPIO_SOM}
-		BT_TTY_DEV=${BT_TTY_DEV_SOM}
-	fi
+	bt_set_vars
 
 	if [ ! -d /sys/class/gpio/gpio${BT_EN_GPIO} ]; then
 		echo ${BT_EN_GPIO} >/sys/class/gpio/export
@@ -73,7 +88,7 @@ enable_bt()
 			echo "out" > /sys/class/gpio/gpio${BT_BUF_GPIO}/direction
 		fi
 		if ! som_is_var_som_mx8mm; then
-			echo 0 > /sys/class/gpio/gpio${BT_BUF_GPIO}/value
+			echo ${BT_BUF_ENABLE} > /sys/class/gpio/gpio${BT_BUF_GPIO}/value
 		fi
 	fi
 }
@@ -159,7 +174,7 @@ bt_attach_iw61x()
 	[ -e /sys/class/bluetooth/hci0 ] && exit 0
 
 	# Initialize and attach the BT device at 115200
-	hciattach ${BT_TTY_DEV_SOM} any 115200 flow
+	hciattach ${BT_TTY_DEV} any 115200 flow
 	sleep 0.5
 	hciconfig hci0 up
 	hciconfig
@@ -176,7 +191,7 @@ bt_attach_iw61x()
 	sleep 0.5
 
 	# Initialize and attach the BT device at 3000000
-	hciattach ${BT_TTY_DEV_SOM} any 3000000 flow
+	hciattach ${BT_TTY_DEV} any 3000000 flow
 
 	# Wait until the HCI interface comes up
 	if ! timeout 10 sh -c 'until hciconfig | grep -q "hci"; do sleep 0.1; done'; then
@@ -249,11 +264,7 @@ bt_stop_iw61x()
 # Stop BT hardware
 bt_stop()
 {
-	if som_is_var_som_mx8mp; then
-		BT_EN_GPIO=${BT_EN_GPIO_SOM}
-		BT_BUF_GPIO=${BT_BUF_GPIO_SOM}
-		BT_TTY_DEV=${BT_TTY_DEV_SOM}
-	fi
+	bt_set_vars
 
 	# Exit if BT interface is not available
 	[ -e /sys/class/bluetooth/hci0 ] || exit 0
@@ -275,5 +286,5 @@ bt_stop()
 	fi
 
 	# BT_EN down
-	echo 0 > /sys/class/gpio/gpio${BT_EN_GPIO}/value
+	echo ${BT_BUF_DISABLE} > /sys/class/gpio/gpio${BT_EN_GPIO}/value
 }
