@@ -42,6 +42,35 @@ check_images()
 	fi
 }
 
+# Detect if the SOM has a codec
+detect_codec_is_available()
+{
+	# A codec chip is expected at i2c address 0x1a
+	return $(i2cdetect -y 1 0x1a 0x1a | grep -iq -e 'uu' -e '1a')
+}
+
+# Detect the codec chip
+detect_codec_chip()
+{
+	if detect_codec_is_available; then
+		# Read codec chip ID
+		id=$(i2cget -f -y 1 0x1a 0x0 w 2>/dev/null)
+
+		if [ $? -eq 2 ]; then
+			echo "wm8731" # expected error (write-only device)
+		else
+			# Check codec chip ID
+			if [ "$id" == "0x0489" ]; then
+				echo "wm8904"
+			else
+				echo "n/a"
+			fi
+		fi
+	else
+		echo "n/a"
+	fi
+}
+
 install_bootloader_to_nand()
 {
 	echo
@@ -191,6 +220,8 @@ finish()
 blue_underlined_bold_echo "*** Variscite MX6UL/MX6ULL/MX7 Yocto eMMC/NAND Recovery ***"
 echo
 
+CODEC=`detect_codec_chip`
+
 while getopts :b:r:v: OPTION;
 do
 	case $OPTION in
@@ -290,6 +321,10 @@ if [[ $STORAGE_DEV == "nand" ]] ; then
 				KERNEL_DTB=imx6ull-var-dart-sd_nand.dtb
 			fi
 		fi
+
+		if [[ -n $CODEC && $CODEC == "wm8731" ]]; then
+			KERNEL_DTB="${KERNEL_DTB%.dtb}-${CODEC}.dtb"
+		fi
 	elif [[ $BOARD == "mx7" ]] ; then
 		KERNEL_DTB=imx7d-var-som-nand.dtb
 	fi
@@ -316,12 +351,18 @@ elif [[ $STORAGE_DEV == "emmc" ]] ; then
 		if [[ $BOARD == "mx6ul" || $BOARD == "mx6ul5g" ]] ; then
 			KERNEL_DTBS="imx6ul-var-dart-emmc_wifi.dtb
 				     imx6ul-var-dart-5g-emmc_wifi.dtb
-				     imx6ul-var-dart-sd_emmc.dtb"
+				     imx6ul-var-dart-sd_emmc.dtb
+				     imx6ul-var-dart-emmc_wifi-wm8731.dtb
+				     imx6ul-var-dart-5g-emmc_wifi-wm8731.dtb
+				     imx6ul-var-dart-sd_emmc-wm8731.dtb"
 			FAT_VOLNAME=BOOT-VAR6UL
 		elif [[ $BOARD == "mx6ull" || $BOARD == "mx6ull5g"  ]] ; then
 			KERNEL_DTBS="imx6ull-var-dart-emmc_wifi.dtb
 				     imx6ull-var-dart-5g-emmc_wifi.dtb
-				     imx6ull-var-dart-sd_emmc.dtb"
+				     imx6ull-var-dart-sd_emmc.dtb
+				     imx6ull-var-dart-emmc_wifi-wm8731.dtb
+				     imx6ull-var-dart-5g-emmc_wifi-wm8731.dtb
+				     imx6ull-var-dart-sd_emmc-wm8731.dtb"
 			FAT_VOLNAME=BOOT-VAR6ULL
 		fi
 	elif [[ $BOARD == "mx7" ]] ; then
