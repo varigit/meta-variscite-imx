@@ -9,5 +9,7 @@ MIRRORS += "\
     http://source.codeaurora.org/external/imx/ http://github.com/nxp-imx/ \n \
     gitsm://source.codeaurora.org/external/imx/ gitsm://github.com/nxp-imx/ \n \
     ftp://nano-editor.org/pub/nano/ https://nano-editor.org/dist/ \n \
+    http://sourceforge.net/projects/linuxptp/files/v1.6/ https://software-dl.ti.com/processor-sdk-mirror/sources \n \
+    http://sourceforge.net/projects/linuxptp/files/v1.6/ https://variscite-public.nyc3.cdn.digitaloceanspaces.com/mirror/sources/ \n \
 "
 
