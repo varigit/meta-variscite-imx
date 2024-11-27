@@ -8,5 +8,6 @@ MIRRORS += "\
     https://source.codeaurora.org/external/imx/ https://github.com/nxp-imx/ \n \
     http://source.codeaurora.org/external/imx/ http://github.com/nxp-imx/ \n \
     gitsm://source.codeaurora.org/external/imx/ gitsm://github.com/nxp-imx/ \n \
+    ftp://nano-editor.org/pub/nano/ https://nano-editor.org/dist/ \n \
 "
 
