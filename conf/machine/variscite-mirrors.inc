@@ -11,5 +11,6 @@ MIRRORS += "\
     ftp://nano-editor.org/pub/nano/ https://nano-editor.org/dist/ \n \
     http://sourceforge.net/projects/linuxptp/files/v1.6/ https://software-dl.ti.com/processor-sdk-mirror/sources \n \
     http://sourceforge.net/projects/linuxptp/files/v1.6/ https://variscite-public.nyc3.cdn.digitaloceanspaces.com/mirror/sources/ \n \
+    ${DEBIAN_MIRROR} https://snapshot.debian.org/archive/debian/20150212T040413Z/pool \n \
 "
 
