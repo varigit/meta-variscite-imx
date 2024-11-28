@@ -14,3 +14,4 @@ MIRRORS += "\
     ${DEBIAN_MIRROR} https://snapshot.debian.org/archive/debian/20150212T040413Z/pool \n \
 "
 
+CONNECTIVITY_CHECK_URIS ?= "https://www.example.com/"
